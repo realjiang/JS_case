@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>微信聊天窗口</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			font-family: '微软雅黑'
+		}
+
+		#container {
+			width: 450px;
+			height: 600px;
+			background: #eee;
+			margin: 10px auto 0;
+			position: relative;
+			box-shadow: 0px 0px 16px #999;
+		}
+
+		.header {
+			background: #000;
+			height: 34px;
+			color: #fff;
+			height: 40px;
+			line-height: 40px;
+			font-size: 20px;
+			padding: 0 10px;
+		}
+
+		.footer {
+			width: 430px;
+			height: 40px;
+			background: #999;
+			position: absolute;
+			bottom: 0;
+			padding: 10px;
+		}
+
+		.footer input {
+			width: 300px;
+			height: 38px;
+			outline: none;
+			font-size: 16px;
+			text-indent: 10px;
+			position: absolute;
+			border-radius: 6px;
+			right: 80px;
+		}
+
+		.footer span {
+			display: inline-block;
+			width: 62px;
+			height: 38px;
+			background: #ccc;
+			font-weight: 900;
+			line-height: 38px;
+			cursor: pointer;
+			text-align: center;
+			position: absolute;
+			right: 10px;
+			top: 14px;
+			border-radius: 6px;
+		}
+
+		.footer span:hover {
+			color: #777;
+			background: #ddd;
+		}
+
+		.icon {
+			display: inline-block;
+			background: red;
+			width: 50px;
+			height: 50px;
+			border-radius: 30px;
+			position: absolute;
+			bottom: 3px;
+			left: 10px;
+			cursor: pointer;
+			overflow: hidden;
+		}
+
+		img {
+			width: 60px;
+			height: 60px;
+			border-radius: 8px;
+		}
+
+		.content {
+			font-size: 20px;
+			width: 435px;
+			height: 662px;
+			overflow: auto;
+			padding: 5px;
+		}
+
+		.content li {
+			margin-top: 10px;
+			padding-left: 10px;
+			width: 412px;
+			display: block;
+			clear: both;
+			overflow: hidden;
+		}
+
+		.content li img {
+			float: left;
+		}
+
+		.content li span {
+			background: #7cfc00;
+			padding: 10px;
+			border-radius: 10px;
+			float: left;
+			margin: 6px 10px 0 10px;
+			max-width: 310px;
+			border: 1px solid #ccc;
+			box-shadow: 0 0 3px #ccc;
+		}
+
+		.content li img.imgleft {
+			float: left;
+		}
+
+		.content li img.imgright {
+			float: right;
+		}
+
+		.content li span.spanleft {
+			float: left;
+			background: #fff;
+		}
+
+		.content li span.spanright {
+			float: right;
+			background: #7cfc00;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="container">
+		<div class="header"> <span style="float: right;">20:30</span> <span style="float: left;">小泽老师</span> </div>
+
+		<ul class="content"></ul>
+
+		<div class="footer">
+			<div class="icon"> <img src="img/1.png" alt="" id="icon"> </div>
+			<input id="text" type="text" placeholder="说点什么吧..."> <span id="btn">发送</span> </div>
+	</div>
+</body>
+<script type="text/javascript">
+	// 思路分析：
+	// ①点击图片实现用户切换功能
+	// 	1-1：默认两个用户，通过点击来回切换
+	// ②点击发送按钮，把用户的聊天内容展示连天区域
+	// 	2-1：点击发送按钮，把聊天内容展示在聊天区域
+	// 	2-2：设定聊天在连天区域内不同位置显示
+
+		// 获取图片标签
+		var img = document.getElementById("icon");
+		var arr = ["img/1.png","img/2.png"];
+		var tag = 0;
+		// 给图片对象绑定点击事件
+		img.onclick = function(){
+			// 根据当前显示的图片切换用户图片。
+			if(tag == 0){
+				img.src = arr[1];
+				tag = 1;
+				console.log(img.src);
+			}else{
+				img.src = arr[0];
+				tag = 0;
+			}
+		}
+
+		var btn = document.getElementById("btn");
+		var num = -1; //统计聊天记录
+		btn.onclick = function(){
+			// 判断用户内容是否为空
+			var text = document.getElementById("text").value;
+			if(text == ""){
+				alert("聊天内容不能为空");
+			}else{
+				// 把用户内容添加到区域区域
+				var content = document.getElementsByTagName("ul")[0];
+				content.innerHTML += "<li><img src='"+arr[tag]+"'/><span>"+text+"</span></li>"
+			}
+
+			var imgs = content.getElementsByTagName("img");
+			var span = content.getElementsByTagName("span");
+			num++;
+			console.log(imgs[num]);
+			console.log(span[num]);
+			console.log(num);
+			// 判断当前聊天的用户
+			if(tag == 0){
+				imgs[num].className = "imgleft";
+				span[num].className = "spanleft";
+			}else{
+				imgs[num].className = "imgright";
+				span[num].className = "spanright";
+			}
+			//清空聊天内容
+			document.getElementById("text").value= "";
+			
+
+		}
+ 	
+
+
+
+</script>
+
+</html>
