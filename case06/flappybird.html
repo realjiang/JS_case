@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #game {
+            width: 800px;
+            height: 600px;
+            background: url('./images/sky.png');
+            position: relative;
+            overflow: hidden;
+        }
+
+        #bird {
+            width: 34px;
+            height: 25px;
+            background: url('./images/birds.png') -8px -10px no-repeat;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game">
+        <div id="bird"></div>
+    </div>
+    <script>
+        // 让小鸟飞起来
+        // 移动的背景
+        // top
+        // 定时器
+        // 动画原理 leader = leader + step
+        // 获取相应的元素
+        var game = document.getElementById('game');
+        var birdEle = document.getElementById('bird');
+        // 初始化背景图的值
+
+        var sky = {
+            x: 0
+        }
+        // 初始bird 的值
+        var bird = {
+            speedX: 5,
+            speedY: 0,
+            x: birdEle.offsetLeft,
+            y: birdEle.offsetTop
+        }
+        // 游戏的状态
+        var running = true;
+        setInterval(function () {
+            if (running) {
+                // 移动背景让小鸟实现水平运动
+                sky.x -= 5;
+                game.style.backgroundPositionX = sky.x + 'px';
+                // 实现小鸟的上下运动
+                bird.speedY += 1;
+                bird.y += bird.speedY;
+                if (bird.y < 0) {
+                    running = false;
+                    bird.y = 0;
+                }
+                if (bird.y + birdEle.offsetHeight > 600) {
+                    running = false;
+                    bird.y = 600 - birdEle.offsetHeight;
+                    console.log(bird.y)
+                }
+
+                birdEle.style.top = bird.y + 'px';
+            }
+
+        }, 30)
+        // 点击文档的时候实现小鸟向上运动
+        document.onclick = function () {
+            bird.speedY = -10;
+        }
+        // 创建管道
+        function createPipe(position) {
+            var pipe = {};
+            pipe.x = position;
+            pipe.uHeight = 200 + parseInt(Math.random() * 100);
+            pipe.dHeight = 600 - pipe.uHeight - 200;
+            pipe.dTop = pipe.uHeight + 200;
+            var uPipe = document.createElement('div');
+            uPipe.style.width = '52px';
+            uPipe.style.height = pipe.uHeight + 'px';
+            uPipe.style.background = 'url("./images/pipe2.png") no-repeat center bottom';
+            uPipe.style.position = 'absolute';
+            uPipe.style.top = '0px';
+            uPipe.style.left = pipe.x + 'px';
+            game.appendChild(uPipe);
+
+            var dPipe = document.createElement('div');
+            dPipe.style.width = '52px';
+            dPipe.style.height = pipe.dHeight + 'px';
+            dPipe.style.background = 'url("./images/pipe1.png") no-repeat center  top';
+            dPipe.style.position = 'absolute';
+            dPipe.style.top = pipe.dTop + 'px';
+            dPipe.style.left = pipe.x + 'px';
+            game.appendChild(dPipe);
+            // 让管道运动起来
+            setInterval(function () {
+                if (running) {
+                    pipe.x -= 2;
+                    uPipe.style.left = pipe.x + 'px';
+                    dPipe.style.left = pipe.x + 'px';
+                    if (pipe.x < -52) {
+                        pipe.x = 800;
+                    }
+                    var uCheck = bird.x + 34 > pipe.x && bird.x < pipe.x + 52 && bird.y < pipe.uHeight;
+                    var dCheck = bird.x + 34 > pipe.x && bird.x < pipe.x + 52 && bird.y > pipe.uHeight + 200;
+                    if (uCheck || dCheck) {
+                        running = false;
+                    }
+                }
+            }, 30)
+        }
+        createPipe(400);
+        createPipe(600);
+        createPipe(800);
+        createPipe(1000);
+
+    </script>
+</body>
+
+</html>
