@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    #box {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <input type="button" id="btn" value="动画 800">
+  <input type="button" id="btn1" value="动画 400">
+
+  <div id="box">
+    
+  </div>
+  <script>
+    var btn = document.getElementById('btn');
+    var box = document.getElementById('box');
+
+    var btn1 = document.getElementById('btn1');
+
+ 
+    btn.onclick = function () {
+      animate(box, 800);
+    }
+
+    btn1.onclick = function () {
+      animate(box, 400);
+    }
+    var timerId = null;
+    // 封装动画的函数
+    function animate(element, target) {
+
+       // 通过判断，保证页面上只有一个定时器在执行动画
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+
+      timerId = setInterval(function () {
+        // 步进  每次移动的距离
+        var step = 10;
+        // 盒子当前的位置
+        var current = element.offsetLeft;
+
+        if (current >= target) {
+          // 让定时器停止
+          clearInterval(timerId);
+          // 让盒子到target的位置
+          element.style.left = target + 'px';
+          return;
+        }
+        // 移动盒子
+        current += step;
+        element.style.left = current + 'px';
+      }, 30);
+    }
+  </script>
+</body>
+</html>
