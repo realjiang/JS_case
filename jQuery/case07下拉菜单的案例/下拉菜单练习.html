@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .wrap {
+            width: 330px;
+            height: 30px;
+            margin: 100px auto 0;
+            padding-left: 10px;
+            background-image: url(images/bg.jpg);
+        }
+
+        .wrap li{
+            background-image: url(images/libg.jpg);
+        }
+
+        .wrap > ul > li {
+            float: left;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .wrap a {
+            display: block;
+            height: 30px;
+            width: 100px;
+            text-decoration: none;
+            color: #000;
+            line-height: 30px;
+            text-align: center;
+        }
+
+        .wrap li ul {
+            position: absolute;
+            top: 30px;
+            display: none;
+        }
+
+    </style>
+    <script src="jquery-1.12.2.js"></script>
+    <script>
+        $(function () {
+            //获取.wrap下面的ul中的li,注册鼠标进入和离开的事件
+            $(".wrap>ul>li").mouseover(function () {
+                //鼠标进入
+                $(this).children("ul").stop().show(500);//显示
+            });
+            $(".wrap>ul>li").mouseout(function () {
+                //鼠标离开
+                $(this).children("ul").stop().hide(500);//显示
+            });
+            //.stop()方法用来停止动画
+        });
+    </script>
+</head>
+<body>
+<div class="wrap">
+    <ul>
+        <li>
+            <a href="javascript:void(0);">主食</a>
+            <ul>
+                <li><a href="javascript:void(0);">米饭</a></li>
+                <li><a href="javascript:void(0);">窝窝头</a></li>
+                <li><a href="javascript:void(0);">面条</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0);">汤类</a>
+            <ul>
+                <li><a href="javascript:void(0);">紫菜蛋花汤</a></li>
+                <li><a href="javascript:void(0);">滑蛋虾仁汤</a></li>
+                <li><a href="javascript:void(0);">奶油蘑菇汤</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0);">菜品</a>
+            <ul>
+                <li><a href="javascript:void(0);">锅包肉</a></li>
+                <li><a href="javascript:void(0);">回锅肉</a></li>
+                <li><a href="javascript:void(0);">酸菜排骨</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
