@@ -31,6 +31,8 @@ JS案例
 
 09  跟着鼠标飞的图片
 
+10 - offset、client和scroll
+
 jQuery
 
 ​	01 好友界面切换
